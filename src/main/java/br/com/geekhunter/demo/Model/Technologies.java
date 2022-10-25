@@ -13,11 +13,7 @@ public class Technologies {
     private String technologies;
     private String category;
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(name="Vacancies_Technologies",
-    joinColumns = @JoinColumn(name="Vacancies_FK"),
-            inverseJoinColumns = @JoinColumn(name = "Technologies_FK")
-    )
+    @ManyToMany(mappedBy = "technologies")
     private Set<Vacancies> vacancies;
 
     public Technologies() {

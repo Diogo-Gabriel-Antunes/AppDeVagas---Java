@@ -13,10 +13,18 @@ public class CreateVacanciesDTO {
     private String jobDescription;
     private String vacancyLocation;
     private Float salaryRange;
+    private Float salaryRangeMax;
     private String seniority;
     private String typeOfContract;
     private String category;
 
+    public Float getSalaryRangeMax() {
+        return salaryRangeMax;
+    }
+
+    public void setSalaryRangeMax(Float salaryRangeMax) {
+        this.salaryRangeMax = salaryRangeMax;
+    }
 
     public String getJobTitle() {
         return jobTitle;
@@ -75,6 +83,6 @@ public class CreateVacanciesDTO {
     }
 
     public Vacancies convert() {
-        return new Vacancies(this.jobTitle, this.jobDescription, this.vacancyLocation, this.salaryRange, this.seniority, this.typeOfContract, this.category,true );
+        return new Vacancies(this.jobTitle, this.jobDescription, this.vacancyLocation, this.salaryRange, this.seniority, this.typeOfContract, this.category,true,this.salaryRangeMax );
     }
 }

@@ -1,10 +1,19 @@
 package br.com.geekhunter.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "company")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Company {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,8 +25,8 @@ public class Company {
     private String managerRH;
 
     private String companyDescription;
-    @OneToMany(mappedBy = "company")
-
+    @OneToMany(mappedBy = "companyId")
+    @JsonManagedReference
     private List<Vacancies> vacancies;
 
     public Company() {

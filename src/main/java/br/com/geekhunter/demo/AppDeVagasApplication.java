@@ -18,8 +18,8 @@ public class AppDeVagasApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/vacancies").allowedOrigins("http://localhost:3000");
-				registry.addMapping("/technologies").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/*/**").allowedOrigins("http://localhost:3000");
+
 			}
 		};
 	}

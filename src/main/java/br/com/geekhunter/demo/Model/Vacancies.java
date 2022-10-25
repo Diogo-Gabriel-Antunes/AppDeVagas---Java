@@ -1,5 +1,6 @@
 package br.com.geekhunter.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -15,26 +16,34 @@ public class Vacancies{
 
     private String jobTitle;
 
+    @Column(length = 999999999)
     private String jobDescription;
 
     private String vacancyLocation;
 
     private Float salaryRange;
+    private Float salaryRangeMax;
     private String seniority;
     private String typeOfContract;
     private String category;
     private Boolean active;
     private String activities;
-    @JsonIgnore
-    @ManyToOne()
-    @JoinColumn(nullable = false)
-    private Company company;
-    @ManyToMany(mappedBy = "vacancies")
+
+    @ManyToOne
+    @JoinColumn(name = "companyId")
+    @JsonBackReference
+    private Company companyId;
+    @ManyToMany
+    @JoinTable(name="Vacancies_Technologies",
+            joinColumns = @JoinColumn(name="Vacancies_FK"),
+            inverseJoinColumns = @JoinColumn(name = "Technologies_FK")
+    )
     private Set<Technologies> technologies;
 
 
-    public Vacancies(String jobTitle, String jobDescription, String vacancyLocation, Float salaryRange, String seniority, String typeOfContract, String category,Boolean active) {
+    public Vacancies(String jobTitle, String jobDescription, String vacancyLocation, Float salaryRange, String seniority, String typeOfContract, String category,Boolean active,Float salaryRangeMax) {
         this.jobTitle = jobTitle;
+
         this.jobDescription = jobDescription;
         this.vacancyLocation = vacancyLocation;
         this.salaryRange = salaryRange;
@@ -42,9 +51,30 @@ public class Vacancies{
         this.typeOfContract = typeOfContract;
         this.category = category;
         this.active = active;
+        this.salaryRangeMax = salaryRangeMax;
     }
 
     public Vacancies() {
+    }
+
+    public Float getSalaryRangeMax() {
+        return salaryRangeMax;
+    }
+
+    public void setSalaryRangeMax(Float salaryRangeMax) {
+        this.salaryRangeMax = salaryRangeMax;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public String getActivities() {
+        return activities;
+    }
+
+    public void setActivities(String activities) {
+        this.activities = activities;
     }
 
     public Long getId() {
@@ -120,11 +150,11 @@ public class Vacancies{
     }
 
     public Company getCompany() {
-        return company;
+        return companyId;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyId(Company company) {
+        this.companyId = company;
     }
 
     public Set<Technologies> getTechnologies() {
@@ -134,4 +164,6 @@ public class Vacancies{
     public void setTechnologies(Set<Technologies> technologies) {
         this.technologies = technologies;
     }
+
+
 }
