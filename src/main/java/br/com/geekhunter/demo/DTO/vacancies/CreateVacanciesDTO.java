@@ -17,6 +17,7 @@ public class CreateVacanciesDTO {
     private String typeOfContract;
     private String category;
 
+
     public String getJobTitle() {
         return jobTitle;
     }
@@ -74,6 +75,6 @@ public class CreateVacanciesDTO {
     }
 
     public Vacancies convert() {
-        return new Vacancies(this.jobTitle, this.jobDescription, this.vacancyLocation, this.salaryRange, this.seniority, this.typeOfContract, this.category );
+        return new Vacancies(this.jobTitle, this.jobDescription, this.vacancyLocation, this.salaryRange, this.seniority, this.typeOfContract, this.category,true );
     }
 }

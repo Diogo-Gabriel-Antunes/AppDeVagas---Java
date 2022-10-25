@@ -7,10 +7,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class AppDeVagaasApplication {
+public class AppDeVagasApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AppDeVagaasApplication.class, args);
+		SpringApplication.run(AppDeVagasApplication.class, args);
 	}
 
 	@Bean

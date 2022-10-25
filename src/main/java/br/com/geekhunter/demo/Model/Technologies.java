@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Technologies {
@@ -13,7 +14,11 @@ public class Technologies {
     private String category;
     @JsonIgnore
     @ManyToMany
-    private List<Vacancies> vacancies;
+    @JoinTable(name="Vacancies_Technologies",
+    joinColumns = @JoinColumn(name="Vacancies_FK"),
+            inverseJoinColumns = @JoinColumn(name = "Technologies_FK")
+    )
+    private Set<Vacancies> vacancies;
 
     public Technologies() {
     }
@@ -47,11 +52,11 @@ public class Technologies {
         this.category = category;
     }
 
-    public List<Vacancies> getVacancies() {
+    public Set<Vacancies> getVacancies() {
         return vacancies;
     }
 
-    public void setVacancies(List<Vacancies> vacancies) {
+    public void setVacancies(Set<Vacancies>  vacancies) {
         this.vacancies = vacancies;
     }
 }

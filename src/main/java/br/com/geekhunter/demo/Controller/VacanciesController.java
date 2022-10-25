@@ -27,7 +27,7 @@ public class VacanciesController {
 
     @GetMapping
     public List<Vacancies> listVacancies(){
-        List<Vacancies> vacancies =  vacanciesRepository.findAll();
+        List<Vacancies> vacancies =  vacanciesRepository.findByActive(true);
         return vacancies;
     }
 

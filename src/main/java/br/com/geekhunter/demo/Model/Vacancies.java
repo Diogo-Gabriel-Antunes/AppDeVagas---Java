@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "vacancies")
@@ -22,17 +23,17 @@ public class Vacancies{
     private String seniority;
     private String typeOfContract;
     private String category;
-    private boolean active;
+    private Boolean active;
     private String activities;
     @JsonIgnore
     @ManyToOne()
     @JoinColumn(nullable = false)
     private Company company;
-    @ManyToMany
-    private List<Technologies> technologies;
+    @ManyToMany(mappedBy = "vacancies")
+    private Set<Technologies> technologies;
 
 
-    public Vacancies(String jobTitle, String jobDescription, String vacancyLocation, Float salaryRange, String seniority, String typeOfContract, String category) {
+    public Vacancies(String jobTitle, String jobDescription, String vacancyLocation, Float salaryRange, String seniority, String typeOfContract, String category,Boolean active) {
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.vacancyLocation = vacancyLocation;
@@ -40,7 +41,7 @@ public class Vacancies{
         this.seniority = seniority;
         this.typeOfContract = typeOfContract;
         this.category = category;
-
+        this.active = active;
     }
 
     public Vacancies() {
@@ -110,11 +111,11 @@ public class Vacancies{
         this.category = category;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -126,11 +127,11 @@ public class Vacancies{
         this.company = company;
     }
 
-    public List<Technologies> getTechnologies() {
+    public Set<Technologies> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(List<Technologies> technologies) {
+    public void setTechnologies(Set<Technologies> technologies) {
         this.technologies = technologies;
     }
 }
