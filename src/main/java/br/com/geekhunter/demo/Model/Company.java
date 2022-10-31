@@ -27,6 +27,9 @@ public class Company {
 //    @JsonManagedReference
     @JsonIgnore
     private List<Vacancies> vacancies;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    private User user;
 
     public Company() {
     }
@@ -112,5 +115,13 @@ public class Company {
 
     public void setVacancies(List<Vacancies> vacancies) {
         this.vacancies = vacancies;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

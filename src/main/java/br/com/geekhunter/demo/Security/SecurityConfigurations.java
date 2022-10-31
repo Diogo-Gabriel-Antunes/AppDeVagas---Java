@@ -43,6 +43,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/technologies").permitAll()
                 .antMatchers(HttpMethod.GET, "/technologies/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/authenticade").permitAll()
+                .antMatchers(HttpMethod.GET, "/authenticade/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/companies/*").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
