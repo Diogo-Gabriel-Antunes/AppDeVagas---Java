@@ -1,11 +1,6 @@
 package br.com.geekhunter.demo.DTO.vacancies;
 
-import br.com.geekhunter.demo.Model.Company;
 import br.com.geekhunter.demo.Model.Vacancies;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 public class CreateVacanciesDTO {
 
@@ -83,6 +78,6 @@ public class CreateVacanciesDTO {
     }
 
     public Vacancies convert() {
-        return new Vacancies(this.jobTitle, this.jobDescription, this.vacancyLocation, this.salaryRange, this.seniority, this.typeOfContract, this.category,true,this.salaryRangeMax );
+        return new Vacancies(this.jobTitle, this.jobDescription, this.vacancyLocation, this.salaryRange, this.seniority, this.typeOfContract, this.category, true, this.salaryRangeMax);
     }
 }

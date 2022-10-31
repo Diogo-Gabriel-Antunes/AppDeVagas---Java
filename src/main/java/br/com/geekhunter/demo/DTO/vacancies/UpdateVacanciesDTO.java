@@ -77,6 +77,7 @@ public class UpdateVacanciesDTO {
     public void setCategory(String category) {
         this.category = category;
     }
+
     public Float getSalaryRangeMax() {
         return salaryRangeMax;
     }
@@ -84,7 +85,8 @@ public class UpdateVacanciesDTO {
     public void setSalaryRangeMax(Float salaryRangeMax) {
         this.salaryRangeMax = salaryRangeMax;
     }
-    public Vacancies updateVacancies(Long id, VacanciesRepository repository){
+
+    public Vacancies updateVacancies(Long id, VacanciesRepository repository) {
         Vacancies vacancies = repository.findById(id).get();
         vacancies.setCategory(this.category);
         vacancies.setVacancyLocation(this.vacancyLocation);

@@ -1,12 +1,9 @@
 package br.com.geekhunter.demo.Controller;
 
-import br.com.geekhunter.demo.DTO.company.CreateCompanyDTO;
-import br.com.geekhunter.demo.DTO.company.UpdateCompanyDTO;
 import br.com.geekhunter.demo.DTO.vacancies.CreateVacanciesDTO;
 import br.com.geekhunter.demo.DTO.vacancies.UpdateVacanciesDTO;
-import br.com.geekhunter.demo.Model.Company;
+import br.com.geekhunter.demo.Model.Technologies;
 import br.com.geekhunter.demo.Model.Vacancies;
-import br.com.geekhunter.demo.repository.CompanyRepository;
 import br.com.geekhunter.demo.repository.VacanciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequestMapping("/vacancies")
 @RestController
@@ -26,20 +22,21 @@ public class VacanciesController {
     private VacanciesRepository vacanciesRepository;
 
     @GetMapping
-    public List<Vacancies> listVacancies(){
-        List<Vacancies> vacancies =  vacanciesRepository.findByActive(true);
+    public List<Vacancies> listVacancies() {
+        List<Vacancies> vacancies = vacanciesRepository.findByActive(true);
         return vacancies;
     }
 
     @GetMapping("/{id}")
-    public Vacancies detailsVacancies(@PathVariable Long id){
-        Vacancies vacancies =  vacanciesRepository.findById(id).get();
+    public Vacancies detailsVacancies(@PathVariable Long id) {
+        Vacancies vacancies = vacanciesRepository.findById(id).get();
 
         return vacancies;
     }
+
     @PostMapping
-    public ResponseEntity<Vacancies> register(@RequestBody CreateVacanciesDTO createVacanciesDTO){
-        Vacancies vacancies =  createVacanciesDTO.convert();
+    public ResponseEntity<Vacancies> register(@RequestBody CreateVacanciesDTO createVacanciesDTO) {
+        Vacancies vacancies = createVacanciesDTO.convert();
 
         vacanciesRepository.save(vacancies);
         URI uri = UriComponentsBuilder.fromPath("/company/{id}").buildAndExpand(vacancies.getId()).toUri();
@@ -49,21 +46,33 @@ public class VacanciesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id) {
         Optional<Vacancies> vacancies = vacanciesRepository.findById(id);
-        if(vacancies.isEmpty()){
+        if (vacancies.isEmpty()) {
             return ResponseEntity.badRequest().build();
-        }else{
+        } else {
             vacanciesRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
     }
+
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Vacancies> update(@PathVariable Long id,@RequestBody UpdateVacanciesDTO updateVacanciesDTO){
+    public ResponseEntity<Vacancies> update(@PathVariable Long id, @RequestBody UpdateVacanciesDTO updateVacanciesDTO) {
         Vacancies vacancies = updateVacanciesDTO.updateVacancies(id, vacanciesRepository);
 
         return ResponseEntity.ok(vacancies);
     }
 
+    @GetMapping("/similar/{id}")
+    public ResponseEntity<Set<Vacancies>>  listOfSimilarVacancies(@PathVariable Long id){
+        Vacancies vacancies = vacanciesRepository.findById(id).get();
+        Set<Vacancies> finalVacancies = new HashSet<Vacancies>();
+        for (Technologies technologies:vacancies.getTechnologiesRequired()) {
+            List<Vacancies> vacanciesByTechologies = vacanciesRepository.findByTechnologiesRequired(technologies);
+            finalVacancies.addAll(vacanciesByTechologies);
+        }
+
+        return ResponseEntity.ok(finalVacancies);
+    }
 }

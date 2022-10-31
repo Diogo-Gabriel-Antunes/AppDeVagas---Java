@@ -1,9 +1,7 @@
 package br.com.geekhunter.demo.DTO.technologies;
 
 import br.com.geekhunter.demo.Model.Technologies;
-import br.com.geekhunter.demo.Model.Vacancies;
 import br.com.geekhunter.demo.repository.TechnologiesRepository;
-import net.bytebuddy.asm.Advice;
 
 public class TechnologiesDTO {
 
@@ -19,13 +17,13 @@ public class TechnologiesDTO {
     }
 
     public Technologies convert() {
-        return new Technologies(this.technologies,this.category);
+        return new Technologies(this.technologies, this.category);
     }
 
     public Technologies updateTechnologies(Long id, TechnologiesRepository technologiesRepository) {
-    Technologies technologies = technologiesRepository.findById(id).get();
-    technologies.setCategory(this.category);
-    technologies.setTechnologies(this.technologies);
-    return technologies;
+        Technologies technologies = technologiesRepository.findById(id).get();
+        technologies.setCategory(this.category);
+        technologies.setTechnologies(this.technologies);
+        return technologies;
     }
 }

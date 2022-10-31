@@ -22,21 +22,23 @@ public class CompanyController {
     private CompanyRepository companyRepository;
 
     @GetMapping
-    public List<Company> listCompany(){
-       List<Company> company =  companyRepository.findAll();
+    public List<Company> listCompany() {
+        List<Company> company = companyRepository.findAll();
 
 
         return company;
     }
+
     @GetMapping("/{id}")
-    public Company DetailsCompany(@PathVariable Long id){
-        Optional<Company> company =  companyRepository.findById(id);
+    public Company DetailsCompany(@PathVariable Long id) {
+        Optional<Company> company = companyRepository.findById(id);
 
         return company.get();
     }
+
     @PostMapping
-    public ResponseEntity<Company> register(@RequestBody CreateCompanyDTO createCompanyDTO){
-       Company company =  createCompanyDTO.convert();
+    public ResponseEntity<Company> register(@RequestBody CreateCompanyDTO createCompanyDTO) {
+        Company company = createCompanyDTO.convert();
 
         companyRepository.save(company);
         URI uri = UriComponentsBuilder.fromPath("/company/{id}").buildAndExpand(company.getId()).toUri();
@@ -46,19 +48,20 @@ public class CompanyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id) {
         Optional<Company> company = companyRepository.findById(id);
-        if(company.isEmpty()){
+        if (company.isEmpty()) {
             return ResponseEntity.badRequest().build();
-        }else{
+        } else {
             companyRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
     }
+
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Company> update(@PathVariable Long id,@RequestBody UpdateCompanyDTO updateCompany){
-        Company company = updateCompany.convert(id,companyRepository);
+    public ResponseEntity<Company> update(@PathVariable Long id, @RequestBody UpdateCompanyDTO updateCompany) {
+        Company company = updateCompany.convert(id, companyRepository);
 
         return ResponseEntity.ok(company);
     }

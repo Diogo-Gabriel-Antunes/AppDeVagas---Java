@@ -22,20 +22,21 @@ public class TechnologiesController {
     private TechnologiesRepository technologiesRepository;
 
     @GetMapping
-    public List<Technologies> listVacancies(){
-        List<Technologies> technologies =  technologiesRepository.findAll();
+    public List<Technologies> listVacancies() {
+        List<Technologies> technologies = technologiesRepository.findAll();
         return technologies;
     }
 
     @GetMapping("/{id}")
-    public Technologies detailsVacancies(@PathVariable Long id){
-        Technologies technologies =  technologiesRepository.findById(id).get();
+    public Technologies detailsVacancies(@PathVariable Long id) {
+        Technologies technologies = technologiesRepository.findById(id).get();
 
         return technologies;
     }
+
     @PostMapping
-    public ResponseEntity<Technologies> register(@RequestBody TechnologiesDTO technologiesDTO){
-        Technologies technologies =  technologiesDTO.convert();
+    public ResponseEntity<Technologies> register(@RequestBody TechnologiesDTO technologiesDTO) {
+        Technologies technologies = technologiesDTO.convert();
 
         technologiesRepository.save(technologies);
         URI uri = UriComponentsBuilder.fromPath("/technologies/{id}").buildAndExpand(technologies.getId()).toUri();
@@ -45,18 +46,19 @@ public class TechnologiesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id) {
         Optional<Technologies> technologies = technologiesRepository.findById(id);
-        if(technologies.isEmpty()){
+        if (technologies.isEmpty()) {
             return ResponseEntity.badRequest().build();
-        }else{
+        } else {
             technologiesRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
     }
+
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Technologies> update(@PathVariable Long id,@RequestBody TechnologiesDTO technologiesDTO){
+    public ResponseEntity<Technologies> update(@PathVariable Long id, @RequestBody TechnologiesDTO technologiesDTO) {
         Technologies technologies = technologiesDTO.updateTechnologies(id, technologiesRepository);
 
         return ResponseEntity.ok(technologies);

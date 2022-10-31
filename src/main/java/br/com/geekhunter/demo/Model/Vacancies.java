@@ -1,15 +1,13 @@
 package br.com.geekhunter.demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "vacancies")
-public class Vacancies{
+public class Vacancies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,14 +32,26 @@ public class Vacancies{
     @JsonBackReference
     private Company companyId;
     @ManyToMany
-    @JoinTable(name="Vacancies_Technologies",
-            joinColumns = @JoinColumn(name="Vacancies_FK"),
+    @JoinTable(name = "Vacancies_Benefits",
+            joinColumns = @JoinColumn(name = "Vacancies_FK"),
+            inverseJoinColumns = @JoinColumn(name = "Benefits_FK")
+    )
+    private Set<Benefits> benefits;
+    @ManyToMany
+    @JoinTable(name = "Vacancies_Technologies",
+            joinColumns = @JoinColumn(name = "Vacancies_FK"),
             inverseJoinColumns = @JoinColumn(name = "Technologies_FK")
     )
-    private Set<Technologies> technologies;
+    private Set<Technologies> technologiesRequired;
 
+    @ManyToMany
+    @JoinTable(name = "Vacancies_TechnologiesDesirable",
+            joinColumns = @JoinColumn(name = "Vacancies_FK"),
+            inverseJoinColumns = @JoinColumn(name = "Technologies_FK")
+    )
+    private Set<Technologies> technologiesDesirable;
 
-    public Vacancies(String jobTitle, String jobDescription, String vacancyLocation, Float salaryRange, String seniority, String typeOfContract, String category,Boolean active,Float salaryRangeMax) {
+    public Vacancies(String jobTitle, String jobDescription, String vacancyLocation, Float salaryRange, String seniority, String typeOfContract, String category, Boolean active, Float salaryRangeMax) {
         this.jobTitle = jobTitle;
 
         this.jobDescription = jobDescription;
@@ -157,13 +167,32 @@ public class Vacancies{
         this.companyId = company;
     }
 
-    public Set<Technologies> getTechnologies() {
-        return technologies;
+    public Set<Technologies> getTechnologiesRequired() {
+        return technologiesRequired;
     }
 
-    public void setTechnologies(Set<Technologies> technologies) {
-        this.technologies = technologies;
+    public void setTechnologiesRequired(Set<Technologies> technologiesRequired) {
+        this.technologiesRequired = technologiesRequired;
     }
 
 
+    public Set<Benefits> getBenefits() {
+        return benefits;
+    }
+
+    public void setBenefits(Set<Benefits> benefits) {
+        this.benefits = benefits;
+    }
+
+    public Company getCompanyId() {
+        return companyId;
+    }
+
+    public Set<Technologies> getTechnologiesDesirable() {
+        return technologiesDesirable;
+    }
+
+    public void setTechnologiesDesirable(Set<Technologies> technologiesDesirable) {
+        this.technologiesDesirable = technologiesDesirable;
+    }
 }

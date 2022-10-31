@@ -1,0 +1,13 @@
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Vale refeição');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('\nVale alimentação');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Plano odontológico');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Seguro de vida');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Day off no aniversário');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Vale alimentação');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Auxílio-creche');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Vale academia');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Vale transporte ou vale combustível');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Plano de saúde');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Jornada flexível');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Home office periódico');
+INSERT INTO `appDeVagas`.`benefits` (`benefits`) VALUES ('Assistência psicológica');
