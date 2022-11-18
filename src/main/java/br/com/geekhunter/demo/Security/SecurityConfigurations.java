@@ -39,12 +39,15 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/vacancies").permitAll()
-                .antMatchers(HttpMethod.GET, "/vacancies/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/vacancies/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/technologies").permitAll()
                 .antMatchers(HttpMethod.GET, "/technologies/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/authenticade").permitAll()
                 .antMatchers(HttpMethod.GET, "/authenticade/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/companies/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/curriculum").permitAll()
+                .antMatchers(HttpMethod.POST, "/curriculum").permitAll()
+                .antMatchers(HttpMethod.GET, "/curriculum/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -55,7 +58,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(authenticadeService).passwordEncoder(new BCryptPasswordEncoder());
     }
-
+//    public static void main(String[] args) {
+//        System.out.println(new BCryptPasswordEncoder().encode("123456").toString());
+//    }
 
 }
+
+
 

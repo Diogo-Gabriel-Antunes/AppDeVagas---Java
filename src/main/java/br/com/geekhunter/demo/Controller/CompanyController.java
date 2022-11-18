@@ -50,7 +50,7 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         Optional<Company> company = companyRepository.findById(id);
-        if (company.isEmpty()) {
+        if (company.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             companyRepository.deleteById(id);

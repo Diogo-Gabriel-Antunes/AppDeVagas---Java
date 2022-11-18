@@ -1,12 +1,18 @@
 package br.com.geekhunter.demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "vacancies")
+@Getter
+@Setter
 public class Vacancies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +20,7 @@ public class Vacancies {
 
     private String jobTitle;
 
-    @Column(length = 999999999)
+    @Column(length = 999999)
     private String jobDescription;
 
     private String vacancyLocation;
@@ -28,9 +34,8 @@ public class Vacancies {
     private String activities;
 
     @ManyToOne
-    @JoinColumn(name = "companyId")
-    @JsonBackReference
-    private Company companyId;
+    @JoinColumn(name = "company")
+    private Company company;
     @ManyToMany
     @JoinTable(name = "Vacancies_Benefits",
             joinColumns = @JoinColumn(name = "Vacancies_FK"),
@@ -67,132 +72,5 @@ public class Vacancies {
     public Vacancies() {
     }
 
-    public Float getSalaryRangeMax() {
-        return salaryRangeMax;
-    }
 
-    public void setSalaryRangeMax(Float salaryRangeMax) {
-        this.salaryRangeMax = salaryRangeMax;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public String getActivities() {
-        return activities;
-    }
-
-    public void setActivities(String activities) {
-        this.activities = activities;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getJobDescription() {
-        return jobDescription;
-    }
-
-    public void setJobDescription(String jobDescription) {
-        this.jobDescription = jobDescription;
-    }
-
-    public String getVacancyLocation() {
-        return vacancyLocation;
-    }
-
-    public void setVacancyLocation(String vacancyLocation) {
-        this.vacancyLocation = vacancyLocation;
-    }
-
-    public Float getSalaryRange() {
-        return salaryRange;
-    }
-
-    public void setSalaryRange(Float salaryRange) {
-        this.salaryRange = salaryRange;
-    }
-
-    public String getSeniority() {
-        return seniority;
-    }
-
-    public void setSeniority(String seniority) {
-        this.seniority = seniority;
-    }
-
-    public String getTypeOfContract() {
-        return typeOfContract;
-    }
-
-    public void setTypeOfContract(String typeOfContract) {
-        this.typeOfContract = typeOfContract;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Boolean isActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Company getCompany() {
-        return companyId;
-    }
-
-    public void setCompanyId(Company company) {
-        this.companyId = company;
-    }
-
-    public Set<Technologies> getTechnologiesRequired() {
-        return technologiesRequired;
-    }
-
-    public void setTechnologiesRequired(Set<Technologies> technologiesRequired) {
-        this.technologiesRequired = technologiesRequired;
-    }
-
-
-    public Set<Benefits> getBenefits() {
-        return benefits;
-    }
-
-    public void setBenefits(Set<Benefits> benefits) {
-        this.benefits = benefits;
-    }
-
-    public Company getCompanyId() {
-        return companyId;
-    }
-
-    public Set<Technologies> getTechnologiesDesirable() {
-        return technologiesDesirable;
-    }
-
-    public void setTechnologiesDesirable(Set<Technologies> technologiesDesirable) {
-        this.technologiesDesirable = technologiesDesirable;
-    }
 }

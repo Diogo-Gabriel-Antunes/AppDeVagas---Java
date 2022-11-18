@@ -1,9 +1,18 @@
 package br.com.geekhunter.demo.Model;
 
+import br.com.geekhunter.demo.Model.Curriculum.Curriculum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,75 +20,24 @@ public class Candidate {
     private String nome;
     private String cpf;
     private Date dataNascimento;
-    private String curriculo;
+
+    @OneToOne
+    @JoinColumn(name = "curriculum")
+    private Curriculum curriculum;
     private String category;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "userId")
-    private User user;
+    @JsonIgnore
+    private User userId;
 
     public Candidate() {
     }
 
-    public Candidate(String nome, String cpf, Date dataNascimento, String curriculo) {
+    public Candidate(String nome, String cpf, Date dataNascimento, Curriculum curriculum) {
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
-        this.curriculo = curriculo;
+        this.curriculum = curriculum;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Date getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getCurriculo() {
-        return curriculo;
-    }
-
-    public void setCurriculo(String curriculo) {
-        this.curriculo = curriculo;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }

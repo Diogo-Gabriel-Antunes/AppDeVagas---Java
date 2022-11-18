@@ -51,7 +51,7 @@ public class BenefitsController {
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         Optional<Benefits> benefits = benefitsRepository.findById(id);
-        if (benefits.isEmpty()) {
+        if (benefits.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             benefitsRepository.deleteById(id);

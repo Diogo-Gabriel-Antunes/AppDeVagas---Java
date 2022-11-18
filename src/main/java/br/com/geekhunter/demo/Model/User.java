@@ -1,5 +1,9 @@
 package br.com.geekhunter.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -7,41 +11,27 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Table(name = "usuario")
+@Getter
+@Setter
 public class User implements UserDetails {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String senha;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Perfil> perfis = new HashSet<Perfil>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+    @OneToMany(mappedBy = "userId",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Perfil> perfil;
+    @OneToOne(mappedBy = "userId")
+    @JsonIgnore
+    private Company company;
+    @OneToOne(mappedBy = "userId")
+    @JsonIgnore
+    private Candidate candidate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.perfis;
+        return this.perfil;
     }
 
     @Override

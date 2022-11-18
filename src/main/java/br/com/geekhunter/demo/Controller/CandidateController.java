@@ -3,7 +3,10 @@ package br.com.geekhunter.demo.Controller;
 import br.com.geekhunter.demo.DTO.Candidate.CandidateDTO;
 import br.com.geekhunter.demo.DTO.Candidate.UpdateCandidateDTO;
 import br.com.geekhunter.demo.Model.Candidate;
+import br.com.geekhunter.demo.Model.Vacancies;
+import br.com.geekhunter.demo.Service.OportunityService;
 import br.com.geekhunter.demo.repository.CandidateRepository;
+import br.com.geekhunter.demo.repository.VacanciesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +16,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-@RestController
 @RequestMapping("/candidate")
+@RestController
 public class CandidateController {
     @Autowired
     private CandidateRepository candidateRepository;
+    @Autowired
+    private VacanciesRepository vacanciesRepository;
+    @Autowired
+    private OportunityService oportunityService;
 
     @GetMapping
     public List<Candidate> listCandidate() {
@@ -47,7 +55,7 @@ public class CandidateController {
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         Optional<Candidate> candidate = candidateRepository.findById(id);
-        if (candidate.isEmpty()) {
+        if (candidate.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             candidateRepository.deleteById(id);
@@ -65,10 +73,20 @@ public class CandidateController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Candidate> searchByUser(@PathVariable Long id) {
-    Optional<Candidate> candidate = candidateRepository.findByuserId(id);
-    if(candidate.isPresent()){
-        return ResponseEntity.ok(candidate.get());
+        try {
+            Candidate candidate = candidateRepository.getCandidateByUserId_CandidateId(id);
+            if (candidate != null) {
+                return ResponseEntity.ok(candidate);
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+
+        return ResponseEntity.badRequest().build();
+
     }
-    return ResponseEntity.badRequest().build();
+    @GetMapping("/opportunity/{id}")
+    public Set<Vacancies> listOpportunity(@PathVariable Long id){
+        return oportunityService.criaListaDeOportunidades(candidateRepository,vacanciesRepository,id);
     }
 }

@@ -1,24 +1,38 @@
 package br.com.geekhunter.demo.Model;
 
+import br.com.geekhunter.demo.Model.Curriculum.Skills;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 public class Technologies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String technologies;
     private String category;
-    @JsonIgnore
     @ManyToMany(mappedBy = "technologiesRequired")
-    private Set<Vacancies> vacanciesRequired;
     @JsonIgnore
+    private Set<Vacancies> vacanciesRequired;
     @ManyToMany(mappedBy = "technologiesDesirable")
+    @JsonIgnore
     private Set<Vacancies> vacanciesDesirable;
 
+    @OneToOne(mappedBy = "technologies")
+    @JsonIgnore
+    private Curse curse;
+    @OneToOne(mappedBy = "technologies")
+    @JsonIgnore
+    private Skills skills;
     public Technologies() {
     }
 
@@ -27,45 +41,6 @@ public class Technologies {
         this.category = category;
     }
 
-    public Set<Vacancies> getVacanciesRequired() {
-        return vacanciesRequired;
-    }
-
-    public void setVacanciesRequired(Set<Vacancies> vacanciesRequired) {
-        this.vacanciesRequired = vacanciesRequired;
-    }
-
-    public Set<Vacancies> getVacanciesDesirable() {
-        return vacanciesDesirable;
-    }
-
-    public void setVacanciesDesirable(Set<Vacancies> vacanciesDesirable) {
-        this.vacanciesDesirable = vacanciesDesirable;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTechnologies() {
-        return technologies;
-    }
-
-    public void setTechnologies(String technologies) {
-        this.technologies = technologies;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
 
 }

@@ -47,8 +47,8 @@ public class VacanciesController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        Optional<Vacancies> vacancies = vacanciesRepository.findById(id);
-        if (vacancies.isEmpty()) {
+        Vacancies vacancies = vacanciesRepository.findById(id).get();
+        if (vacancies == null) {
             return ResponseEntity.badRequest().build();
         } else {
             vacanciesRepository.deleteById(id);
@@ -66,13 +66,19 @@ public class VacanciesController {
 
     @GetMapping("/similar/{id}")
     public ResponseEntity<Set<Vacancies>>  listOfSimilarVacancies(@PathVariable Long id){
-        Vacancies vacancies = vacanciesRepository.findById(id).get();
-        Set<Vacancies> finalVacancies = new HashSet<Vacancies>();
-        for (Technologies technologies:vacancies.getTechnologiesRequired()) {
-            List<Vacancies> vacanciesByTechologies = vacanciesRepository.findByTechnologiesRequired(technologies);
-            finalVacancies.addAll(vacanciesByTechologies);
-        }
+        Optional<Vacancies> vacancies = vacanciesRepository.findById(id);
+        if(vacancies.isPresent()){
+            Set<Vacancies> finalVacancies = new HashSet<Vacancies>();
+            for (Technologies technologies:vacancies.get().getTechnologiesRequired()) {
+                List<Vacancies> vacanciesByTechologies = vacanciesRepository.findByTechnologiesRequired(technologies);
+                finalVacancies.addAll(vacanciesByTechologies);
+            }
 
-        return ResponseEntity.ok(finalVacancies);
+            return ResponseEntity.ok(finalVacancies);
+        }
+        System.out.println(vacancies);
+        return ResponseEntity.badRequest().build();
     }
+
+
 }

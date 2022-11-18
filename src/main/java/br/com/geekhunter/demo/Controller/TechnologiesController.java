@@ -48,7 +48,7 @@ public class TechnologiesController {
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         Optional<Technologies> technologies = technologiesRepository.findById(id);
-        if (technologies.isEmpty()) {
+        if (technologies.isPresent()) {
             return ResponseEntity.badRequest().build();
         } else {
             technologiesRepository.deleteById(id);
