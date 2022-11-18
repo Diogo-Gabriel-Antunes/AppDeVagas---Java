@@ -2,13 +2,12 @@ package br.com.geekhunter.demo.Model;
 
 import br.com.geekhunter.demo.Model.Curriculum.Curriculum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,6 +28,12 @@ public class Candidate {
     @JoinColumn(name = "userId")
     @JsonIgnore
     private User userId;
+
+    @ManyToMany
+    @JoinTable(name = "candidato_candidatura", joinColumns = {@JoinColumn(name = "candidato_id")}, inverseJoinColumns = {@JoinColumn(name = "vaga_id")})
+    @JsonIgnore
+    private Set<Vacancies> candidatura;
+
 
     public Candidate() {
     }

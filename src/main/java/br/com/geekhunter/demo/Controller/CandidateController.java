@@ -4,6 +4,7 @@ import br.com.geekhunter.demo.DTO.Candidate.CandidateDTO;
 import br.com.geekhunter.demo.DTO.Candidate.UpdateCandidateDTO;
 import br.com.geekhunter.demo.Model.Candidate;
 import br.com.geekhunter.demo.Model.Vacancies;
+import br.com.geekhunter.demo.Service.ApplicationService;
 import br.com.geekhunter.demo.Service.OportunityService;
 import br.com.geekhunter.demo.repository.CandidateRepository;
 import br.com.geekhunter.demo.repository.VacanciesRepository;
@@ -27,6 +28,8 @@ public class CandidateController {
     private VacanciesRepository vacanciesRepository;
     @Autowired
     private OportunityService oportunityService;
+    @Autowired
+    private ApplicationService applicationService;
 
     @GetMapping
     public List<Candidate> listCandidate() {
@@ -89,4 +92,9 @@ public class CandidateController {
     public Set<Vacancies> listOpportunity(@PathVariable Long id){
         return oportunityService.criaListaDeOportunidades(candidateRepository,vacanciesRepository,id);
     }
+    @GetMapping("/application/{id}")
+    public List<Vacancies> listApplication(@PathVariable Long id){
+        return applicationService.criaListaDeVagasAplicadas(vacanciesRepository,id,candidateRepository);
+    }
+
 }

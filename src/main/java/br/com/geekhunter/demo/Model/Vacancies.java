@@ -55,7 +55,9 @@ public class Vacancies {
             inverseJoinColumns = @JoinColumn(name = "Technologies_FK")
     )
     private Set<Technologies> technologiesDesirable;
-
+    @ManyToMany(mappedBy = "candidatura")
+    @JsonIgnore
+    private Set<Candidate> candidato;
     public Vacancies(String jobTitle, String jobDescription, String vacancyLocation, Float salaryRange, String seniority, String typeOfContract, String category, Boolean active, Float salaryRangeMax) {
         this.jobTitle = jobTitle;
 
